@@ -1,21 +1,10 @@
-from peewee import SqliteDatabase, Model, CharField, IntegerField
+#!./venv/bin/python
+from bot.bot import bot_polling
+from models.models import init_models
+from utils.env import Config
 
-db = SqliteDatabase("database.db")
-
-
-class Person(Model):
-    name = CharField()
-    age = IntegerField()
-
-    class Meta:
-        database = db
-
-
-db.create_tables([Person])
-
-person = Person(name="John", age=30)
-person.save()
-
-query = Person.select().where(Person.age > 20)
-for person in query:
-    print(person.name)
+if __name__ == "__main__":
+    config = Config()
+    print(config.__dict__)
+    init_models()
+    bot_polling()

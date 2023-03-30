@@ -1,0 +1,12 @@
+!/bin/bash
+apt-get install patchelf -y
+apt-get install gcc -y
+apt-get install make -y
+wget https://github.com/Devil666face/BvsUpdater-dev/releases/download/python-3.10.8-min-dev-nuitka.tgz/python-3.10.8-min-dev-nuitka.tgz
+tar -xf python-3.10.8-min-dev-nuitka.tgz
+./python-3.10.8/bin/python3.10 -m venv venv
+./venv/bin/pip install -r requirements.txt
+./venv/bin/python -m nuitka --standalone --onefile --follow-imports main.py
+rm -rf main.build main.dist main.onefile-build
+./venv/bin/python -m nuitka --standalone --onefile --follow-imports ./venv/bin/sgpt
+rm -rf sgpt.build sgpt.dist sgpt.onefile-build

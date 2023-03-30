@@ -1,0 +1,7 @@
+#!/bin/bash
+cp chatgptosbot.service.tpl chatgptosbot.service
+sed -i 's|%PWD%|'"$PWD"'|g' ./chatgptosbot.service
+rm /etc/systemd/system/chatgptosbot.service
+cp chatgptosbot.service /etc/systemd/system
+systemctl daemon-reload
+systemctl enable chatgptosbot.service --now
