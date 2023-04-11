@@ -168,7 +168,8 @@ async def gpt_answer(message: types.Message, state: FSMContext):
         await state.finish()
         return
     await answer(message, _.AWAIT(message.text))
-    chat_answer = ChatGPT(ask_text=message.text, api_key=api_key.key).answer
+    chat_answer = ChatGPT(api_key=api_key.key).answer(message.text)
+    # chat_answer = ChatGPT(ask_text=message.text, api_key=api_key.key).answer
     User.ask(message.from_user.id, message.text, chat_answer)
     await answer_gpt(message, chat_answer)
     await answer_translate(message)
