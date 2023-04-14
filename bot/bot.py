@@ -27,6 +27,7 @@ from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher import FSMContext
 from utils.gpt import ChatGPT
 from aiogram.utils.exceptions import CantParseEntities
+from utils.thread import threadpool
 
 
 translator = Translator()
@@ -168,12 +169,17 @@ async def gpt_answer(message: types.Message, state: FSMContext):
         await state.finish()
         return
     await answer(message, _.AWAIT(message.text))
-    chat_answer = ChatGPT(api_key=api_key.key).answer(message.text)
-    # chat_answer = ChatGPT(ask_text=message.text, api_key=api_key.key).answer
+    chat_answer = await request_gpt_in_thread(message)
     User.ask(message.from_user.id, message.text, chat_answer)
     await answer_gpt(message, chat_answer)
     await answer_translate(message)
     await state.finish()
+
+
+@threadpool
+def request_gpt_in_thread(message: types.Message):
+    chat_answer = ChatGPT(api_key=api_key.key).answer(message.text)
+    return chat_answer
 
 
 @dp.callback_query_handler(text_contains="translate_")

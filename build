@@ -2,7 +2,6 @@
 git clone "https://github.com/Devil666face/ChatGPTosBot.git"
 ./venv/bin/pip install -r ChatGPTosBot/requirements.txt
 ./venv/bin/python -m nuitka --standalone --onefile --follow-imports ChatGPTosBot/main.py
-rm -rf build dist onefile-build
-mkdir dist && mv main.bin dist/
+mv main.bin compile/
 # ./venv/bin/python -m nuitka --standalone --onefile --follow-imports ./venv/bin/sgpt
 # rm -rf sgpt.build sgpt.dist sgpt.onefile-build
